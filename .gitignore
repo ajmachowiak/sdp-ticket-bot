@@ -1,0 +1,8 @@
+.vscode
+
+# python cache
+__pycache__/
+
+# env files & logs
+logs/
+.env
