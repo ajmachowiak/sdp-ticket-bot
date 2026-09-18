@@ -75,20 +75,24 @@ git clone https://github.com/ajmachowiak/sdp-ticket-bot.git
 cd sdp-ticket-bot
 ```
 
-### 2. Create virtual environment and install dependencies
+### 2. Create virtual environment
 ```bash
 python -m venv venv
 venv\Scripts\activate  # On Linux/macOS use: source venv/bin/activate
+```
+
+### 3. Install dependencies
+```bash
 pip install -r requirements.txt
 ```
 
-### 3. Configure secrets (`.env`)
+### 4. Configure secrets (`.env`)
 Copy the example environment file:
 ```bash
 cp .env.example .env
 ```
 
-### 4. Edit `.env`:
+### 5. Edit `.env`:
 Edit the `.env` file with your actual SDP details:
 
 ```py
