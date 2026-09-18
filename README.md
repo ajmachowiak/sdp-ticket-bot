@@ -71,7 +71,7 @@ This allows the bot to check if any open tickets already exists (`SDPOnDemand.re
 
 ### 1. Clone Repository
 ```bash
-git clone https://github.com/OriginalMistake/sdp-ticket-bot.git
+git clone https://github.com/ajmachowiak/sdp-ticket-bot.git
 cd sdp-ticket-bot
 ```
 
