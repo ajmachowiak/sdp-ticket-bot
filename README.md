@@ -1,8 +1,8 @@
 # ServiceDesk Plus Scheduled Checks Ticket Bot
 
-A Python background automation tool designed to automate the creation, dynamic date rendering and technician assignment for recurring operational, security and site-specific maintenance checks in ServiceDesk Plus (SDP).
+A Python background automation tool designed to automate the creation, dynamic date rendering, and engineer assignment for recurring operational, security, and site-specific maintenance checks in ServiceDesk Plus (SDP).
 
-The system parses Markdown templates with YAML frontmatter, injects dynamic dates, converts body text into formatted HTML and dispatches tickets via the SDP REST API v3 using threaded batch execution.
+The system parses Markdown templates with YAML frontmatter, injects dynamic dates, converts body text into formatted HTML, and dispatches tickets via the SDP REST API v3 using threaded batch execution.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
@@ -12,12 +12,12 @@ The system parses Markdown templates with YAML frontmatter, injects dynamic date
 
 ## Context & Impact
 
-In busy IT environments, manually logging recurring daily, weekly and monthly maintenance tickets (e.g. audit checks, lifecycle runs, security checks etc.) is repetitive and easy to forget. Manual creation often leads to inconsistent ticket formats, incorrect ticket assignments or a delay in the tasks being carried out.
+In busy IT environments, manually logging recurring daily, weekly, and monthly maintenance tickets (e.g. audit checks, lifecycle runs, security checks etc.) is repetitive and easy to forget. Manual creation often leads to inconsistent ticket formats, incorrect ticket assignments or a delay in the tasks being carried out.
 
-I built this bot to run headlessly as a scheduled background task. It reads markdown templates, injects dynamic date parameters, auto-rotates engineers across site pools and dispatches + assigns tickets directly in SDP.
+I built this bot to run headlessly as a scheduled background task. It reads markdown templates, injects dynamic date parameters, auto-rotates engineers across site pools, and dispatches + assigns tickets directly in SDP.
 
 ### Impact
-* Eliminates manual weekly and monthly ticket creation entirely.
+* Eliminates manual daily, weekly, and monthly ticket creation entirely.
 * Rotates engineers across site pools automatically on ticket dispatch, eliminating the need to manually assign or triage incoming maintenance tickets.
 * Parallel dispatches process ticket templates in bulk rather than executing slow sequential API calls.
 
@@ -97,7 +97,7 @@ The scope required for the service account used by this application:
 SDPOnDemand.requests.CREATE,SDPOnDemand.requests.READ,SDPOnDemand.setup.READ
 ```
 
-This allows the bot to check if any open tickets already exists (`SDPOnDemand.requests.READ`), create new tickets (`SDPOnDemand.requests.CREATE`) and lastly, read system setup data to map technician UPNs and categories (`SDPOnDemand.setup.READ`).
+This allows the bot to check if any open tickets already exists (`SDPOnDemand.requests.READ`), create new tickets (`SDPOnDemand.requests.CREATE`), and lastly, read system setup data to map engineer UPNs and categories (`SDPOnDemand.setup.READ`).
 
 ---
 
@@ -130,7 +130,7 @@ LOG_LEVEL=INFO
 ### 3. Command Line Arguments
 
 ```bash
-# dry-run execution (validates template parsing, date injection and prints JSON without network calls)
+# dry-run execution (validates template parsing, date injection, and prints JSON without network calls)
 python app.py --schedule weekly --dry-run
 
 # live test dispatch (creates real SDP tickets with [TESTING] prefix added to the ticket subject)
