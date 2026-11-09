@@ -1,5 +1,8 @@
 # ServiceDesk Plus Scheduled Checks Ticket Bot
 
+![Maintained](https://img.shields.io/badge/Maintained%3F-yes-brightgreen.svg)
+![Status](https://img.shields.io/badge/Status-Production--Ready-blue.svg)
+
 A Python background automation tool designed to automate the creation, dynamic date rendering, and engineer assignment for recurring operational, security, and site-specific maintenance checks in ServiceDesk Plus (SDP).
 
 The system parses Markdown templates with YAML frontmatter, injects dynamic dates, converts body text into formatted HTML, and dispatches tickets via the SDP REST API v3 using threaded batch execution.
@@ -232,6 +235,11 @@ To ensure zero-touch operation, configure two separate scheduled tasks in Window
   * **Program/script:** `C:\path\to\venv\Scripts\python.exe`
   * **Add arguments:** `app.py --schedule monthly`
   * **Start in:** `C:\path\to\sdp-ticket-bot`
+
+---
+
+##  Planned Work
+* [ ] Separating weekly and monthly rotation states (`rota_weekly.md` / `rota_monthly.md`) to optimise assignment distribution.
 
 ---
 
