@@ -37,7 +37,7 @@ I built this bot to run headlessly as a scheduled background task. It reads mark
 ## Logic Flow
 
 ```text
-               [ Scheduled Trigger / CLI ]
+                  [ Scheduled Trigger ]
                             │
                             ▼
                     [ rota_helper.py ]
@@ -52,7 +52,6 @@ I built this bot to run headlessly as a scheduled background task. It reads mark
                             ├── Filters out 'draft: true' templates
                             ├── Injects dynamic dates (e.g. {{ WEEK_COMMENCING }})
                             ├── Converts Markdown body -> SDP HTML
-                            ├── Resolves OAuth2 access tokens
                             └── Parallel Dispatch via ThreadPoolExecutor -> SDP API
                             │
                             ▼
@@ -153,7 +152,7 @@ python app.py --schedule monthly
 
 ### Managing Engineers (`engineers.md`)
 Group engineers under site headers (`## SiteName`). Comment out engineers on leave using standard HTML comments (`<!-- -->`).
-Ensure that the site name does **NOT** have a space between.
+Ensure that the site name does **NOT** have a space between (as shown in "AllSites").
 
 ```markdown
 # Site Roster
@@ -206,7 +205,7 @@ The bot resolves the following place-holders dynamically at runtime:
 * `{{ WEEK_COMMENCING }}` – first day of the current week (Monday)
 * `{{ WEEK_ENDING }}` – last day of the current week (Friday)
 * `{{ CURRENT_DATE }}` – date of ticket submission
-* `{{ THURSDAY_DATE }}` – Thursday of the current week (specific day configurable in script)
+* `{{ THURSDAY_DATE }}` – Thursday of the current week (specific day is configurable in script)
 * `{{ MONTH }}` – current month name
 * `{{ YEAR }}` – current year
 
