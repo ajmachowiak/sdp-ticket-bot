@@ -67,9 +67,10 @@ def get_template_variables():
         "{{ WEEK_COMMENCING }}": monday.strftime("%d/%m/%Y"), # the first day of the week (Monday)
         "{{ WEEK_ENDING }}": (monday + timedelta(days=4)).strftime("%d/%m/%Y"), # the last day of the week (Friday)
         "{{ CURRENT_DATE }}": today.strftime("%d/%m/%Y"), # the current date
-         # for below,modify to your preferred specific date (if needed), change the "3" variable to what is needed (0 = Monday, 4 = Friday) and the "THURSDAY" text to your specific day
-        "{{ THURSDAY_DATE }}": (monday + timedelta(days=3)).strftime("%d/%m/%Y"), # Thursday of the current week
+        "{{ THURSDAY_DATE }}": (monday + timedelta(days=3)).strftime("%d/%m/%Y"), # the Thursday of the current week
+        "{{ WEDNESDAY_DATE }}": (monday + timedelta(days=2)).strftime("%d/%m/%Y"), # the Wednesday of the current week
         "{{ MONTH }}": today.strftime("%B"), # the current month name
+        "{{ 3_MONTHS_FROM_NOW }}": (today + timedelta(days=90)).strftime("%B %Y"), # 3 months from now
         "{{ YEAR }}": str(today.year) # the current year
     }
 
@@ -232,7 +233,7 @@ def main():
         return
 
     active_engineers = get_active_engineers()
-    rota_mappings = read_rota_file()
+    rota_mappings = read_rota_file(args.schedule)
 
     logging.info(f"Active Engineers: {len(active_engineers)}")
     logging.info(f"Processing {len(template_files)} templates(s) from '{template_dir}':\n")
@@ -291,9 +292,9 @@ def main():
             for future in futures:
                 future.result()
 
-    # save updated assignments back to rota.md
+    # save updated assignments back to rota
     if not args.dry_run:
-        save_rota_file(rota_mappings)
+        save_rota_file(rota_mappings, args.schedule)
 
 if __name__ == "__main__":
     main()
