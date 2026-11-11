@@ -1,6 +1,6 @@
 # ServiceDesk Plus Scheduled Checks Ticket Bot
 
-![Maintained](https://img.shields.io/badge/Maintained%3F-yes-brightgreen.svg)
+![Maintained](https://img.shields.io/badge/Maintained-Yes-brightgreen.svg)
 ![Status](https://img.shields.io/badge/Status-Production--Ready-blue.svg)
 
 A Python background automation tool designed to automate the creation, dynamic date rendering, and engineer assignment for recurring operational, security, and site-specific maintenance checks in ServiceDesk Plus (SDP).
