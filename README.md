@@ -1,6 +1,6 @@
 # ServiceDesk Plus Scheduled Checks Ticket Bot
 
-![Maintained](https://img.shields.io/badge/Maintained%3F-yes-brightgreen.svg)
+![Maintained](https://img.shields.io/badge/Maintained-Yes-brightgreen.svg)
 ![Status](https://img.shields.io/badge/Status-Production--Ready-blue.svg)
 
 A Python background automation tool designed to automate the creation, dynamic date rendering, and engineer assignment for recurring operational, security, and site-specific maintenance checks in ServiceDesk Plus (SDP).
@@ -77,7 +77,8 @@ sdp-ticket-bot/
 ├── engineers.md                    # active engineer roster organised by site headers
 ├── README.md                       # project documentation
 ├── requirements.txt                # python dependencies
-├── rota.md                         # active duty assignment mappings
+├── rota_weekly.md                  # active weekly duty assignment mappings
+├── rota_monthly.md                 # active monthly duty assignment mappings
 └── rota_helper.py                  # rotation script handling site pools and shift logic
 ```
 
@@ -141,8 +142,9 @@ python app.py --schedule weekly --test
 # creates a preview.html file in your directory for you to view the template.md in HTML format
 python -c "import app, markdown; parsed = app.parse_template_file('templates/monthly/monthly_audit_checks.md'); open('preview.html', 'w', encoding='utf-8').write(parsed['html_body']); print('preview.html created!')"
 
-# rota.md rotation execution
-python rota_helper.py
+# rota rotation execution (weekly or monthly)
+python rota_helper.py --schedule weekly
+python rota_helper.py --schedule monthly
 
 # production execution
 python app.py --schedule weekly
@@ -151,7 +153,7 @@ python app.py --schedule monthly
 
 ---
 
-## Roster & Template Configuration
+## Engineer, Rota & Template Configuration
 
 ### Managing Engineers (`engineers.md`)
 Group engineers under site headers (`## SiteName`). Comment out engineers on leave using standard HTML comments (`<!-- -->`).
@@ -180,6 +182,45 @@ Ensure that the site name does **NOT** have a space between (as shown in "AllSit
 <!-- - engineer.five@company.com -->
 - engineer.six@company.com
 ```
+
+### Managing Rotas (`rota_weekly.md` and `rota_monthly.md`)
+The rotation mapping files track the historical assignment state for each task template, allowing the helper script (`rota_helper.py`) to smoothly rotate duty assignments across your active engineer pools on every run.
+
+#### Initial Setup
+When setting up the repository for the first time, you must manually populate the initial engineer assignments next to each corresponding template filename in both `rota_weekly.md` and `rota_monthly.md`.  
+The script uses these baseline mappings to determine who takes the next turn in the rotation.
+
+* **Format:** `template_filename.md: engineer.email@company.com`
+* **Comments:** You can use HTML-style comments (`<!-- -->`) to group tasks into logical sections (e.g., standard vs. site-specific tasks) just like the templates.
+
+#### Example Configuration (`rota_weekly.md`)
+```markdown
+# Weekly Live Rota Mapping
+
+<!-- standard daily/weekly tasks-->
+daily_security_checks.md: engineer.three@company.com
+weekly_operational_checks.md: engineer.six@company.com
+
+<!-- site specific weekly tasks -->
+weekly_AV_check_LD.md: engineer.three@company.com
+weekly_AV_check_NY.md: engineer.one@company.com
+weekly_AV_check_TK.md: engineer.six@company.com
+```
+
+#### Example Configuration (`rota_monthly.md`)
+```markdown
+# Monthly Live Rota Mapping
+
+<!-- standard monthly tasks -->
+monthly_audit_checks.md: engineer.one@company.com
+
+<!-- site specific monthly tasks -->
+monthly_lifecycle_LD.md: engineer.three@company.com
+monthly_lifecycle_NY.md: engineer.one@company.com
+monthly_lifecycle_TK.md: engineer.four@company.com
+```
+
+> **Note:** Whenever you add a brand new template file to your `/templates/weekly/` or `/templates/monthly` folders, make sure to add a corresponding entry into its respective `rota_` file so the rotation engine knows to track it.
 
 ### Template Frontmatter (`/templates/weekly/weekly_AV_check_LD.md`)
 Templates use YAML frontmatter for metadata and Markdown for the body. Use dynamic date variables as needed:
@@ -222,7 +263,7 @@ To ensure zero-touch operation, configure two separate scheduled tasks in Window
 * **Trigger:** Every Monday at 08:00 AM
 * **Action 1 (Rotate Rota):**
   * **Program/script:** `C:\path\to\venv\Scripts\python.exe`
-  * **Add arguments:** `rota_helper.py`
+  * **Add arguments:** `rota_helper.py --schedule weekly`
   * **Start in:** `C:\path\to\sdp-ticket-bot`  
 * **Action 2 (Dispatch Tickets):**
   * **Program/script:** `C:\path\to\venv\Scripts\python.exe`
@@ -231,7 +272,11 @@ To ensure zero-touch operation, configure two separate scheduled tasks in Window
 
 ### Monthly Audit Checks
 * **Trigger:** 1st day of every month at 08:00 AM
-* **Action (Dispatch Tickets):**
+* **Action 1 (Rotate Rota):**
+  * **Program/script:** `C:\path\to\venv\Scripts\python.exe`
+  * **Add arguments:** `rota_helper.py --schedule monthly`
+  * **Start in:** `C:\path\to\sdp-ticket-bot`  
+* **Action 2 (Dispatch Tickets):**
   * **Program/script:** `C:\path\to\venv\Scripts\python.exe`
   * **Add arguments:** `app.py --schedule monthly`
   * **Start in:** `C:\path\to\sdp-ticket-bot`
@@ -239,7 +284,7 @@ To ensure zero-touch operation, configure two separate scheduled tasks in Window
 ---
 
 ##  Planned Work
-* [ ] Separating weekly and monthly rotation states (`rota_weekly.md` / `rota_monthly.md`) to optimise assignment distribution.
+* [x] Separating weekly and monthly rotation states (`rota_weekly.md` / `rota_monthly.md`) to optimise assignment distribution.
 
 ---
 
